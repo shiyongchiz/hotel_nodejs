@@ -10,18 +10,37 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.Cart,{
+      this.belongsTo(models.Cart, {
         uniqueKey: "cartId",
       })
-      }
+    }
   }
   Order.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     code: DataTypes.STRING,
     date: DataTypes.DATE,
-    status: DataTypes.INTEGER,
-    adminAction: DataTypes.INTEGER,
+    status: {
+      allowNull: false,
+      type: DataTypes.ENUM('pending','reject','success'),
+      defaultValue: 'pending'
+    },
+    adminAction: {
+      type: DataTypes.ENUM('cancel','accept'),
+    },
     payment: DataTypes.STRING,
-    cartId: DataTypes.INTEGER
+    cartId: {
+      allowNull: true,
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Cart',
+        key: 'id'
+      }
+    }
   }, {
     sequelize,
     modelName: 'Order',

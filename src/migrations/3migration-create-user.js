@@ -1,44 +1,35 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Room', {
+    await queryInterface.createTable('User', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      roomName: {
+      userName: {
         type: Sequelize.STRING
       },
-      detail: {
+      email: {
         type: Sequelize.STRING
       },
-      description: {
+      password: {
         type: Sequelize.STRING
       },
-      price: {
-        type: Sequelize.INTEGER
+      address: {
+        type: Sequelize.STRING
       },
-      reserve: {
-        type: Sequelize.INTEGER
+      phone: {
+        type: Sequelize.STRING
       },
-      hot: {
-        type: Sequelize.INTEGER
-      },
-      active: {
-        type: Sequelize.INTEGER
+      status:  {
+        allowNull: false,
+        type: Sequelize.ENUM('pending', 'reject', 'success'),
+        defaultValue: 'pending'
       },
       image: {
         type: Sequelize.STRING
-      },
-      categoryId: {
-        allowNull: true,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Category',
-          key: 'id'
-        }
       },
       createdAt: {
         allowNull: false,
@@ -51,6 +42,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Room');
+    await queryInterface.dropTable('User');
   }
 };

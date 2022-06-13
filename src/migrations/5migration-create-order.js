@@ -1,4 +1,7 @@
 'use strict';
+
+const sequelize = require("sequelize");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Order', {
@@ -15,10 +18,12 @@ module.exports = {
         type: Sequelize.DATE
       },
       status: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.ENUM('pending', 'reject', 'success'),
+        defaultValue: 'pending'
       },
       adminAction: {
-        type: Sequelize.INTEGER
+        type: Sequelize.ENUM('cancel','accept')
       },
       payment: {
         type: Sequelize.STRING

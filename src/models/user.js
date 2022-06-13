@@ -11,17 +11,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Cart,{
+      this.hasMany(models.Cart, {
         foreignKey: "userId",
       })
     }
   }
   User.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     userName: DataTypes.STRING,
     phone: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    status: DataTypes.INTEGER,
+    status: {
+      allowNull: false,
+      type: DataTypes.ENUM('pending', 'reject', 'success'),
+      defaultValue: 'pending'
+    },
     address: DataTypes.STRING,
     image: DataTypes.STRING,
   }, {

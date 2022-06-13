@@ -10,24 +10,37 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsToManyMany(models.Category,{
+      this.belongsToManyMany(models.Category, {
         foreignKey: "categoryId",
       })
-      this.hasMany(models.Cart,{
+      this.hasMany(models.Cart, {
         foreignKey: "roomId",
       })
     }
   }
   Room.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     roomName: DataTypes.STRING,
     detail: DataTypes.STRING,
     description: DataTypes.STRING,
     price: DataTypes.INTEGER,
     reserve: DataTypes.INTEGER,
-    hot: DataTypes.INTEGER,
-    active: DataTypes.INTEGER,
+    hot: DataTypes.BOOLEAN,
+    active: DataTypes.BOOLEAN,
     image: DataTypes.STRING,
-    categoryId: DataTypes.INTEGER
+    categoryId: {
+      allowNull: true,
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Category',
+        key: 'id'
+      }
+    }
   }, {
     sequelize,
     modelName: 'Room',

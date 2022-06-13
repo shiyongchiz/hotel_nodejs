@@ -10,21 +10,45 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsToMany(models.Room,{
+      this.belongsToMany(models.Room, {
         foreignKey: "roomId",
       })
-      this.belongsToMany(models.User,{
+      this.belongsToMany(models.User, {
         foreignKey: "userId",
       })
-      this.hasOne(models.Order,{
+      this.hasOne(models.Order, {
         uniqueKey: "cartId",
       })
     }
   }
   Cart.init({
-    quantity: DataTypes.INTEGER,
-    userId : DataTypes.INTEGER,
-    roomId : DataTypes.INTEGER,
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    quantity: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    userId: {
+      allowNull: true,
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'User',
+        key: 'id'
+      }
+    },
+    roomId: {
+      allowNull: true,
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Room',
+        key: 'id'
+      }
+    },
   }, {
     sequelize,
     modelName: 'Cart',
