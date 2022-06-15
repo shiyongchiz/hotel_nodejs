@@ -1,15 +1,17 @@
 const service = require('../service/userService');
 const catchAsync = require('../utils/errorHandle/catchAsync');
-const handleLogin = catchAsync(async(req, res) => {
-  let email = req.body.email;
-  let password = req.body.password;
-  if (!email || !password) {
-    return res.status(500).json({
-      errCode: 1,
-      message: 'Missing input parameter(s)'
-    })
-  }
+const helperfn = require('../utils/helperFn');
+
+
+const handleLogin = catchAsync(async (req, res) => {
   try {
+    let email = req.body.email;
+    let password = req.body.password;
+    if (!email || !password) {
+      let err = 'Missing input parameter(s)'
+      helperfn.returnFail(req, res, err)
+    }
+
     let userData = await service.handleLogin(email, password);
     res.status(200).json({
       errCode: userData.errCode,
@@ -20,12 +22,14 @@ const handleLogin = catchAsync(async(req, res) => {
     console.log(e);
   }
 })
+
+
 const user_controller = {
   homePage:
     (req, res) => {
       res.render("user/index");
     },
-  
+
   handleUpdateUser:
     async (req, res) => {
       let data = req.body;
@@ -64,10 +68,10 @@ const user_controller = {
     async (req, res) => {
       let userId = req.query.id;
       let response = await service.deleteUser(userId)
-      if(!response.errCode)
-      res.redirect('display-all-users')
+      if (!response.errCode)
+        res.redirect('display-all-users')
       else
-      console.log(response.message);
+        console.log(response.message);
     }
 }
 module.exports = user_controller
