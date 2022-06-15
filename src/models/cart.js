@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsToMany(models.Room, {
+      this.belongsTo(models.Room, {
         foreignKey: "roomId",
       })
-      this.belongsToMany(models.User, {
+      this.belongsTo(models.User, {
         foreignKey: "userId",
       })
       this.hasOne(models.Order, {
@@ -32,6 +32,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER,
       defaultValue: 0
+    },
+    arrival: {
+      allowNull: false,
+      type: DataTypes.DATE,
+    },
+    departure: {
+      allowNull: false,
+      type: DataTypes.DATE,
     },
     userId: {
       allowNull: true,
@@ -52,6 +60,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Cart',
+    freezeTableName: true
   });
   return Cart;
 };

@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     status: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.ENUM('pending', 'reject', 'success'),
       defaultValue: 'pending'
     },
@@ -37,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+    freezeTableName: true
   });
   return User;
 };

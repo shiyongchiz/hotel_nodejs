@@ -14,7 +14,7 @@ const createJWT = () => {
   } catch (e) {
     console.log(e);
   }
-  console.log('create token success', token);
+  // console.log('create token success', token);
   return token
 }
 
