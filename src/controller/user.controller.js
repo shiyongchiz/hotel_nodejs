@@ -1,31 +1,31 @@
 const service = require('../service/userService');
-
+const catchAsync = require('../utils/errorHandle/catchAsync');
+const handleLogin = catchAsync(async(req, res) => {
+  let email = req.body.email;
+  let password = req.body.password;
+  if (!email || !password) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Missing input parameter(s)'
+    })
+  }
+  try {
+    let userData = await service.handleLogin(email, password);
+    res.status(200).json({
+      errCode: userData.errCode,
+      message: userData.message,
+      user: userData.user ? userData.user : {}
+    })
+  } catch (e) {
+    console.log(e);
+  }
+})
 const user_controller = {
   homePage:
     (req, res) => {
       res.render("user/index");
     },
-  handleLogin:
-    async (req, res) => {
-      let email = req.body.email;
-      let password = req.body.password;
-      if (!email || !password) {
-        return res.status(500).json({
-          errCode: 1,
-          message: 'Missing input parameter(s)'
-        })
-      }
-      try {
-        let userData = await service.handleLogin(email, password);
-        res.status(200).json({
-          errCode: userData.errCode,
-          message: userData.message,
-          user: userData.user ? userData.user : {}
-        })
-      } catch (e) {
-        console.log(e);
-      }
-    },
+  
   handleUpdateUser:
     async (req, res) => {
       let data = req.body;

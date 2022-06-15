@@ -1,5 +1,5 @@
 const service = require('../service/userService');
-
+const helperFn = require('../utils/helperFn');
 const user_controller = {
   homePage:
     (req, res) => {
@@ -10,10 +10,11 @@ const user_controller = {
       let email = req.body.email;
       let password = req.body.password;
       if (!email || !password) {
-        return res.status(500).json({
-          errCode: 1,
-          message: 'Missing input parameter(s)'
-        })
+        // return res.status(500).json({
+        //   errCode: 1,
+        //   message: 'Missing input parameter(s)'
+        // })
+        helperFn.returnFail(req,res,message);
       }
       try {
         let userData = await service.handleLogin(email, password);
