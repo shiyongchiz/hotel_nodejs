@@ -8,7 +8,7 @@ const handleLogin = catchAsync(async (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
     if (!email || !password) {
-      let err = 'Missing input parameter(s)'
+      let err = 'Missing input parameter(s)' //use Joi to validate
       helperfn.returnFail(req, res, err)
     }
 
@@ -65,7 +65,7 @@ const user_controller = {
       })
     },
   deleteUser:
-    async (req, res) => {
+    async (req, res) => { 
       let userId = req.query.id;
       let response = await service.deleteUser(userId)
       if (!response.errCode)
