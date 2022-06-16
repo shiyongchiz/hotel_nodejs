@@ -1,6 +1,7 @@
 var db = require('../models/index')
 const bcrypt = require("bcrypt");
 const { INTEGER } = require('sequelize');
+const { generateJWT } = require('../middleware/JWTAction');
 
 let handleLogin = (email, password) => {
   return new Promise(async (resolve, reject) => {
@@ -11,10 +12,9 @@ let handleLogin = (email, password) => {
         //compare password
         let check = bcrypt.compareSync(password, userFetch.password)
         if (check) {
-          delete userFetch.password;
+          userData.token = generateJWT(userFetch.id)
           userData.errCode = 0;
           userData.message = "OK"
-          userData.user = userFetch;
         }
         else {
           userData.errCode = 3;

@@ -1,5 +1,7 @@
 var userRouter = require("./user.route.js");
 var roomRouter = require("./room.route.js");
+const { authenticateToken } = require("../middleware/JWTAction.js");
+const e = require("express");
 
 
 let initRoutes = (app) => {
@@ -13,9 +15,18 @@ let initRoutes = (app) => {
     (req, res) => {
       res.render('cart')
     })
-    app.get('/',
-    (req, res) => {
+  app.get('/', authenticateToken, ( req, res) => {
+    if(err)
+    {
+      res.status(403).json(err)
+    }
+    else
       res.render('index')
+  })
+
+  app.get('/login',
+    (req, res) => {
+      res.render('login/login')
     })
 }
 
