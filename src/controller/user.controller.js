@@ -3,28 +3,32 @@ const catchAsync = require('../utils/errorHandle/catchAsync');
 const helperfn = require('../utils/helperFn');
 
 
-const handleLogin = catchAsync(async (req, res) => {
-  try {
-    let email = req.body.email;
-    let password = req.body.password;
-    if (!email || !password) {
-      let err = 'Missing input parameter(s)' //use Joi to validate
-      helperfn.returnFail(req, res, err)
-    }
-
-    let userData = await service.handleLogin(email, password);
-    res.status(200).json({
-      errCode: userData.errCode,
-      message: userData.message,
-      user: userData.user ? userData.user : {}
-    })
-  } catch (e) {
-    console.log(e);
-  }
-})
-
-
 const user_controller = {
+
+  handleLogin:
+    catchAsync(async (err, req, res) => {
+      try {
+        let email = req.body.email;
+        let password = req.body.password;
+        // if (!email || !password) {
+        //   let err = 'Missing input parameter(s)' //use Joi to validate
+        //   helperfn.returnFail(req, res, err)
+        // }
+
+        let userData = await service.handleLogin(email, password);
+        res.cookie('token',userData.token,{
+          // httpOnly: true,
+        })
+        res.status(200).json({
+          errCode: userData.errCode,
+          message: userData.message,
+          access_token: userData.token ? userData.token : {}
+        })
+      } catch (e) {
+        console.log(e);
+      }
+    }),
+
   homePage:
     (req, res) => {
       res.render("user/index");
@@ -65,7 +69,7 @@ const user_controller = {
       })
     },
   deleteUser:
-    async (req, res) => { 
+    async (req, res) => {
       let userId = req.query.id;
       let response = await service.deleteUser(userId)
       if (!response.errCode)
