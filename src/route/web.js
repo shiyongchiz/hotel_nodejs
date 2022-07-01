@@ -1,33 +1,38 @@
-var userRouter = require("./user.route.js");
+var controlRouter = require("./control.route.js");
 var roomRouter = require("./room.route.js");
+var cartRouter = require("./cart.route.js");
+var userRouter = require("./user.route.js");
+var orderRouter = require("./order.route.js");
 const { authenticateToken } = require("../middleware/JWTAction.js");
 const e = require("express");
+var db = require('../models/index')
 
 
 let initRoutes = (app) => {
-  app.use('/user', userRouter);
-  app.use('/room', roomRouter);
-  app.get('/about',
+
+  app.get('/registry',
     (req, res) => {
-      res.render('about')
+      res.render('login/registry')
     })
-  app.get('/cart',
-    (req, res) => {
-      res.render('cart')
+  app.use('/control', controlRouter);
+  app.use('/room', authenticateToken, roomRouter);
+  app.use('/cart', authenticateToken, cartRouter)
+  app.use('/order', authenticateToken, orderRouter)
+  app.use('/information', authenticateToken, userRouter)
+  app.get('/', authenticateToken, async (req, res) => {
+    rooms = await db.Room.findAll()
+    res.render('index', {
+      rooms: rooms
     })
-  app.get('/', authenticateToken, ( req, res) => {
-    if(err)
-    {
-      res.status(403).json(err)
-    }
-    else
-      res.render('index')
   })
 
   app.get('/login',
     (req, res) => {
-      res.render('login/login')
+      res.render('login/login', {
+        data: req.query
+      })
     })
+
 }
 
 module.exports = initRoutes

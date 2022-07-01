@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Cart, {
         foreignKey: "userId",
       })
+      this.hasOne(models.Order, {
+        uniqueKey: "userId",
+      })
     }
   }
   User.init({

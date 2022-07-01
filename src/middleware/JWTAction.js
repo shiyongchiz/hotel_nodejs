@@ -1,15 +1,15 @@
 require("dotenv").config()
 const jwt = require('jsonwebtoken');
 
-const generateJWT = (email) => {
+const generateJWT = (userId) => {
   let payload = {
-    email
+    id: userId
   }
   let key = process.env.JWT_SECRET
   let token
   try {
     token = jwt.sign(payload, key, {
-      expiresIn: '15s'
+      expiresIn: '60m'
     })
   } catch (e) {
     console.log(e);
@@ -20,23 +20,49 @@ const generateJWT = (email) => {
 const authenticateToken = (req, res, next) => {
   try {
     let token = req.cookies.token
-    if (!token) {
-      return res.status(401).json({
-        message: 'token cookie are not set'
-      })
-    }
     let key = process.env.JWT_SECRET;
-    let user = jwt.verify(token, key)
-    next()
+    let user = jwt.verify(token, key, (err, decoded) => {
+      if (err) {
+        return res.redirect('/login')
+      }
+      else
+        next()
+    })
   } catch (err) {
-    // res.clearCookie('token')
-    // return res.status(403).json('token expireddddd')
     console.log("expired tokeen");
-    next(err)
+  }
+}
+
+
+const generateJWTForVerifyRegister = (userId) => {
+  let payload = {
+    id: userId
+  }
+  let key = process.env.JWT_SECRET
+  let token
+  try {
+    token = jwt.sign(payload, key, {
+      expiresIn: '1d'
+    })
+  } catch (e) {
+    console.log(e);
+  }
+  return token
+}
+
+const verifyToken = (token) => {
+  try {
+    let key = process.env.JWT_SECRET;
+    let id = jwt.verify(token, key)
+    return id
+  } catch (e) {
+    console.log(e);
   }
 }
 
 module.exports = {
   generateJWT,
-  authenticateToken
+  authenticateToken,
+  generateJWTForVerifyRegister,
+  verifyToken
 }

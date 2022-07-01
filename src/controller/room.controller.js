@@ -1,74 +1,52 @@
-const service = require('../service/userService');
+const { verifyToken } = require('../middleware/JWTAction');
 const helperFn = require('../utils/helperFn');
-const user_controller = {
-  homePage:
-    (req, res) => {
-      res.render("room");
-    },
-  handleLogin:
+const db = require('../models');
+const room_controller = {
+  roomPage:
     async (req, res) => {
-      let email = req.body.email;
-      let password = req.body.password;
-      if (!email || !password) {
-        // return res.status(500).json({
-        //   errCode: 1,
-        //   message: 'Missing input parameter(s)'
-        // })
-        helperFn.returnFail(req,res,message);
-      }
+      rooms = await db.Room.findAll()
+      res.render('room', {
+        rooms: rooms,
+      })
+    },
+    bookRoom:
+    async (req, res) => {
       try {
-        let userData = await service.handleLogin(email, password);
-        res.status(200).json({
-          errCode: userData.errCode,
-          message: userData.message,
-          user: userData.user ? userData.user : {}
-        })
+        let roomId = parseInt(req.query.roomId);
+        let { id: userId } = verifyToken(req.cookies.token)
+        let cart = {}
+        let cartFetch = await db.Cart.findOne(
+          {
+            where: {
+              userId,
+              roomId,
+              onCart: 1
+            }
+          })
+        if (cartFetch) {
+          let cartId = cartFetch.id;
+          let quantity = cartFetch.quantity + 1;
+          cart = await db.Cart.update({ quantity }, {
+            where: {
+              id: cartId
+            }
+          })
+        }
+        else {
+          cart = await db.Cart.create({
+            quantity: 1,
+            userId: userId,
+            roomId: roomId,
+            onCart: 1,
+            arrival: new Date(),
+            departure: new Date(),
+          })
+        }
+        return res.redirect('/cart')
       } catch (e) {
         console.log(e);
       }
-    },
-  handleUpdateUser:
-    async (req, res) => {
-      let data = req.body;
-      if (data) {
-        let user = await service.handleUpdateUser(data)
-        console.log(user.message);
-        res.redirect('display-all-users')
-      }
-      else return res.send('invalid get query')
-    },
-  createUser:
-    async (req, res) => {
-      let data = await service.createUser(req.body)
-      if (data.errCode) {
-        return console.log(data.message)
-      }
-      else res.redirect('display-all-users')
-    },
-  displayUsers:
-    async (req, res) => {
-      let userId = req.query.id;
-      let data = await service.getAllUsers(userId)
-      res.render("user/displayUsers", {
-        data: data.users
-      })
-    },
-  updateUser:
-    async (req, res) => {
-      let userId = req.query.id;
-      let data = await service.updateUser(userId)
-      res.render("user/updateUserById", {
-        data: data.user
-      })
-    },
-  deleteUser:
-    async (req, res) => {
-      let userId = req.query.id;
-      let response = await service.deleteUser(userId)
-      if(!response.errCode)
-      res.redirect('display-all-users')
-      else
-      console.log(response.message);
     }
+
 }
-module.exports = user_controller
+module.exports = room_controller

@@ -34,7 +34,7 @@
                     <h2 class="page-cover-tittle">Cart</h2>
                     <ol class="breadcrumb">
                         <li><a href="index.html">Home</a></li>
-                        <li class="active">Cart</li>
+                        <li class="active">Order</li>
                     </ol>
                 </div>
             </div>
@@ -44,7 +44,7 @@
         <!--================ Cart  =================-->
             <header id="site-header">
                 <div class="container">
-                    <h1>CHECK-OUT</h1>
+                    <h1>Order detail</h1>
                 </div>
             </header>
 
@@ -102,7 +102,7 @@
 
                 </div>
             </footer>
-            <input type="hidden" id="userId" value="<%= userId %>">
+            <input type="hidden" id="userId" value="<%= cart.userId %>">
         <!--================ Cart  =================-->
 
         <%- include('./include/footer.ejs') %>

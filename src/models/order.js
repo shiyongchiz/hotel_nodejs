@@ -10,8 +10,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.Cart, {
-        uniqueKey: "cartId",
+      this.belongsTo(models.User, {
+        uniqueKey: "userId",
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      })
+      this.hasMany(models.CartOrder, {
+        foreignKey: "orderId",
       })
     }
   }
@@ -30,14 +35,18 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'pending'
     },
     adminAction: {
-      type: DataTypes.ENUM('cancel','accept'),
+      type: DataTypes.ENUM('cancel','accept','pending'),
+      defaultValue: 'pending'
     },
     payment: DataTypes.STRING,
-    cartId: {
+    total: DataTypes.FLOAT,
+    userId: {
       allowNull: true,
       type: DataTypes.INTEGER,
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
       references: {
-        model: 'Cart',
+        model: 'User',
         key: 'id'
       }
     }

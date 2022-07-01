@@ -2,7 +2,7 @@ var express = require("express");
 var bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 var initRoutes = require('./route/web')
-var connectDB = require("./config/connectDB")
+var {connectDB} = require("./config/connectDB")
 const cors = require('cors');
 
 var app = express();

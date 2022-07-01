@@ -23,16 +23,22 @@ module.exports = {
         defaultValue: 'pending'
       },
       adminAction: {
-        type: Sequelize.ENUM('cancel','accept')
+        type: Sequelize.ENUM('cancel','accept','pending'),
+        defaultValue: 'pending'
+      },
+      total: {
+        type: Sequelize.FLOAT
       },
       payment: {
         type: Sequelize.STRING
       },
-      cartId: {
+      userId: {
         allowNull: true,
         type: Sequelize.INTEGER,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
         references: {
-          model: 'Cart',
+          model: 'User',
           key: 'id'
         }
       },

@@ -3,74 +3,57 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Cart extends Model {
+  class CartOrder extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.Room, {
-        foreignKey: "roomId",
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      })
-      this.belongsTo(models.User, {
-        foreignKey: "userId",
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      })
-      this.hasMany(models.CartOrder, {
+      this.belongsTo(models.Cart, {
         foreignKey: "cartId",
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       })
-     
+      this.belongsTo(models.Order, {
+        foreignKey: "orderId",
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      })
+
     }
   }
-  Cart.init({
+  CartOrder.init({
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    quantity: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      defaultValue: 0
-    },
-    arrival: {
-      allowNull: false,
-      type: DataTypes.DATE,
-    },
-    departure: {
-      allowNull: false,
-      type: DataTypes.DATE,
-    },
-    onCart: DataTypes.BOOLEAN,
-    userId: {
+    cartId: {
       allowNull: true,
       type: DataTypes.INTEGER,
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
       references: {
-        model: 'User',
+        model: 'Cart',
         key: 'id'
       }
     },
-    roomId: {
+    orderId: {
       allowNull: true,
       type: DataTypes.INTEGER,
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
       references: {
-        model: 'Room',
+        model: 'Order',
         key: 'id'
       }
     },
   }, {
     sequelize,
-    modelName: 'Cart',
+    modelName: 'CartOrder',
     freezeTableName: true
   });
-  return Cart;
+  return CartOrder;
 };

@@ -1,47 +1,35 @@
 'use strict';
+
+const sequelize = require("sequelize");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Cart', {
+    await queryInterface.createTable('CartOrder', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      quantity: {
-        type: Sequelize.INTEGER
-      },
-      userId: {
+      cartId: {
         allowNull: true,
         type: Sequelize.INTEGER,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {
-          model: 'User',
+          model: 'Cart',
           key: 'id'
         }
       },
-      roomId: {
+      orderId: {
         allowNull: true,
         type: Sequelize.INTEGER,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {
-          model: 'Room',
+          model: 'Order',
           key: 'id'
         }
-      },
-      arrival: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      departure: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      onCart: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
@@ -54,6 +42,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Cart');
+    await queryInterface.dropTable('CartOrder');
   }
 };
