@@ -7,12 +7,13 @@ const helperfn = require('../utils/helperFn');
 const user_controller = {
   userPage:
     async (req, res) => {
+
       try {
         let { id: userId } = verifyToken(req.cookies.token)
         let user = await db.User.findOne(
           {
             where: {
-              userId
+              id : userId
             }
           })
         res.render('information', {

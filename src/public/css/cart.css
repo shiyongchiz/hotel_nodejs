@@ -12,23 +12,6 @@ body {
   clear: both;
 }
 
-#site-header,
-#site-footer {
-  background: #fff;
-}
-
-#site-header {
-  margin: 0 0 30px 0;
-}
-
-#site-header h1 {
-  font-size: 31px;
-  font-weight: 300;
-  padding: 40px 0;
-  position: relative;
-  margin: 0;
-}
-
 a {
   color: #000;
   text-decoration: none;
@@ -42,40 +25,6 @@ a {
 
 a:hover {
   color: #53b5aa;
-}
-
-#site-header h1 span {
-  color: #53b5aa;
-}
-
-#site-header h1 span.last-span {
-  background: #fff;
-  padding-right: 150px;
-  position: absolute;
-  left: 217px;
-
-  -webkit-transition: all .2s linear;
-  -moz-transition: all .2s linear;
-  -ms-transition: all .2s linear;
-  -o-transition: all .2s linear;
-  transition: all .2s linear;
-}
-
-#site-header h1:hover span.last-span,
-#site-header h1 span.is-open {
-  left: 363px;
-}
-
-#site-header h1 em {
-  font-size: 16px;
-  font-style: normal;
-  vertical-align: middle;
-}
-
-.container {
-  font-family: 'Open Sans', sans-serif;
-  margin: 0 auto;
-  width: 980px;
 }
 
 #cart {
