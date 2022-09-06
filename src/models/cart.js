@@ -20,10 +20,13 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       })
+      this.belongsToMany(models.Order, {
+        through: models.CartOrder
+      })
       this.hasMany(models.CartOrder, {
         foreignKey: "cartId",
       })
-     
+
     }
   }
   Cart.init({

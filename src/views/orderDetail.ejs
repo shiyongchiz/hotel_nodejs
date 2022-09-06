@@ -5,19 +5,19 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="image/favicon.png" type="image/png">
+    <link rel="icon" href="/image/favicon.png" type="image/png">
     <title>Claudion hotel</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/cart.css">
-    <link rel="stylesheet" href="vendors/linericon/style.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="vendors/nice-select/css/nice-select.css">
-    <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/order_detail.css">
+    <link rel="stylesheet" href="/vendors/linericon/style.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/vendors/nice-select/css/nice-select.css">
+    <link rel="stylesheet" href="/vendors/owl-carousel/owl.carousel.min.css">
     <!-- main css -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
 
 </head>
 
@@ -33,8 +33,8 @@
                 <div class="page-cover text-center">
                     <h2 class="page-cover-tittle">Cart</h2>
                     <ol class="breadcrumb">
-                        <li><a href="index.html">Home</a></li>
-                        <li class="active">Order</li>
+                        <li><a href="/index.html">Home</a></li>
+                        <li class="active">Cart</li>
                     </ol>
                 </div>
             </div>
@@ -44,41 +44,34 @@
         <!--================ Cart  =================-->
             <header id="site-header">
                 <div class="container">
-                    <h1>Order detail</h1>
+                    <h1>ORDER-DETAIL</h1>
                 </div>
             </header>
 
             <div class="container">
 
                 <section id="cart">
-                    <% for(cart of carts){ %>
+                    <% for(d of data){ %>
                         <article class="product">
                             <header>
-                                <a class="remove" id="id<%= cart.id %>">
-                                    <img src="image/<%= cart.room.image %>" alt="">
-
-                                    <h3>Remove</h3>
-                                </a>
+                                    <img src="/image/<%= d.Room.image %>" alt="">
                             </header>
-
                             <div class="content">
-
                                 <h1>
-                                    <%= cart.room.roomName %>
+                                    <%= d.Room.roomName %>
                                 </h1>
-                                <%= cart.room.detail %>
+                                <%= d.Room.detail %>
                             </div>
                             <footer class="content">
-                                <span class="qt-minus">-</span>
-                                <span class="qt" id="id<%= cart.id %>">
-                                    <%= cart.quantity %>
+                                <span class="quantity" >Quantity: </span>
+                                <span class="qt" style="font-size: 200%">
+                                    <%= d.quantity %>
                                 </span>
-                                <span class="qt-plus">+</span>
                                 <h2 class="full-price">
-                                    <%= cart.room.price * cart.quantity%>$
+                                    <%= d.Room.price * d.quantity%>$
                                 </h2>
                                 <h2 class="price">
-                                    <%= cart.room.price%>$
+                                    <%= d.Room.price%>$
                                 </h2>
                             </footer>
                         </article>
@@ -97,30 +90,29 @@
 
                     <div class="right">
                         <h1 class="total">Total: <span></span>$</h1>
-                        <a class="btn">Checkout</a>
+                        <a class="btn-od" href="/order">Checkout</a>
                     </div>
 
                 </div>
             </footer>
-            <input type="hidden" id="userId" value="<%= cart.userId %>">
         <!--================ Cart  =================-->
 
         <%- include('./include/footer.ejs') %>
 
             <!-- Optional JavaScript -->
             <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-            <script src="js/jquery-3.2.1.min.js"></script>
-            <script src="js/popper.js"></script>
-            <script src="js/bootstrap.min.js"></script>
-            <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
-            <script src="js/jquery.ajaxchimp.min.js"></script>
-            <script src="vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.js"></script>
-            <script src="vendors/nice-select/js/jquery.nice-select.js"></script>
-            <script src="js/mail-script.js"></script>
-            <script src="js/stellar.js"></script>
-            <script src="vendors/lightbox/simpleLightbox.min.js"></script>
-            <script src="js/custom.js"></script>
-            <script src="js/cart.js"></script>
+            <script src="/js/jquery-3.2.1.min.js"></script>
+            <script src="/js/popper.js"></script>
+            <script src="/js/bootstrap.min.js"></script>
+            <script src="/vendors/owl-carousel/owl.carousel.min.js"></script>
+            <script src="/js/jquery.ajaxchimp.min.js"></script>
+            <script src="/vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.js"></script>
+            <script src="/vendors/nice-select/js/jquery.nice-select.js"></script>
+            <script src="/js/mail-script.js"></script>
+            <script src="/js/stellar.js"></script>
+            <script src="/vendors/lightbox/simpleLightbox.min.js"></script>
+            <script src="/js/custom.js"></script>
+            <script src="/js/cart.js"></script>
 </body>
 
 </html>

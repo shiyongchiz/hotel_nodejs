@@ -3,7 +3,8 @@ const db = require('../models');
 const cartOrder = require('../models/cart-order');
 const catchAsync = require('../utils/errorHandle/catchAsync');
 const helperfn = require('../utils/helperFn');
-const Cart = require('../models/cart');
+const Cart = require('../models').Cart;
+const { sequelize } = require("../config/connectDB")
 
 const order_controller = {
   orderPage:
@@ -27,30 +28,42 @@ const order_controller = {
     async (req, res) => {
       try {
         let orderId = req.params.orderId
-        let cartOrder = await db.CartOrder.findAll(
-          {
-            where: { orderId},
-            include: [{
-              model: Cart,
-              as:'Cart'
-            }]
-          })
-        console.log(cartOrder);
-          return cartOrder
-        // let cart = await db.Cart.findAll({
-          // where: { id : cartOrder.id },
-          // include: [{
-          //   model: 'Order',
-          //   where: { id : cartOrder.id ,id: 10 }
-          // }]
-        // })
-        // console.log(cart);
-        // res.render('order-detail', {
-        //   orders
-        // })
-      } catch (e) {
-        console.log(e);
-      }
+        // let cartOrder = await db.Order.findAll(
+        //   {
+        //     where: { id: orderId },
+        //     include: [{
+        //       model: db.Cart,
+        //       through: {
+        //         attributes: {
+        //           exclude: ['CartOrder']
+        //         }
+        //       }
+        //     }],
+        //     raw: true,
+        //     nest: true
+        //   })
+
+        let orderDetail = await db.Cart.findAll({
+          include:[{
+            model: db.Order,
+            where:{
+              id: orderId
+            }
+          },{
+            model: db.Room,
+          }],
+          raw: true,
+          nest: true
+        })
+
+        // console.log(orderDetail);
+      res.render('orderDetail', {
+        data: orderDetail
+      })
+    } catch(e) {
+      console.log(e);
     }
 }
+}
 module.exports = order_controller
+

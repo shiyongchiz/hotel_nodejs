@@ -55,7 +55,7 @@
                         <article class="product">
                             <header>
                                 <a class="remove" id="id<%= cart.id %>">
-                                    <img src="image/<%= cart.room.image %>" alt="">
+                                    <img src="image/<%= cart.Room.image %>" alt="">
 
                                     <h3>Remove</h3>
                                 </a>
@@ -64,9 +64,9 @@
                             <div class="content">
 
                                 <h1>
-                                    <%= cart.room.roomName %>
+                                    <%= cart.Room.roomName %>
                                 </h1>
-                                <%= cart.room.detail %>
+                                <%= cart.Room.detail %>
                             </div>
                             <footer class="content">
                                 <span class="qt-minus">-</span>
@@ -75,10 +75,10 @@
                                 </span>
                                 <span class="qt-plus">+</span>
                                 <h2 class="full-price">
-                                    <%= cart.room.price * cart.quantity%>$
+                                    <%= cart.Room.price * cart.quantity%>$
                                 </h2>
                                 <h2 class="price">
-                                    <%= cart.room.price%>$
+                                    <%= cart.Room.price%>$
                                 </h2>
                             </footer>
                         </article>

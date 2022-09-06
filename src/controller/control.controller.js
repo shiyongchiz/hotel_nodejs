@@ -67,6 +67,7 @@ const control_controller = {
             return res.send(message + '\nplease go to the email to confirm registry')
           }
           else {
+            console.log(message);
             return res.send(message + '\nsend email fail!')
           }
         } catch (error) {

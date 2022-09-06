@@ -17,7 +17,7 @@ const cart_controller = {
             }
           })
         for (let cart of carts) {
-          cart.room = await db.Room.findOne(
+          cart.Room = await db.Room.findOne(
             {
               where: {
                 id: cart.roomId,
