@@ -6,7 +6,19 @@ const helperfn = require('../utils/helperFn');
 
 
 const control_controller = {
+  changeLanguage:
+    catchAsync(async (err, req, res) => {
+      try {
+        let lang = req.params.lang;
+        let url = req.query.url;
 
+        res.cookie('lang', lang, { maxAge: 900000 });
+        return res.redirect(url)
+      } catch (e) {
+        console.log(e);
+        return helperfn.returnFail(req, res, e)
+      }
+    }),
   handleLogin:
     catchAsync(async (err, req, res) => {
       try {

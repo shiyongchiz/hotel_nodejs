@@ -25,6 +25,7 @@ let initRoutes = (app) => {
   app.get('/', authenticateToken, async (req, res) => {
     rooms = await db.Room.findAll()
     res.render('index', {
+      homepage: 'homepage',
       rooms: rooms
     })
   })

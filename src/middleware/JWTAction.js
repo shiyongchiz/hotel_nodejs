@@ -9,7 +9,7 @@ const generateJWT = (userId) => {
   let token
   try {
     token = jwt.sign(payload, key, {
-      expiresIn: '3m'
+      expiresIn: '15m'
     })
   } catch (e) {
     console.log(e);

@@ -25,32 +25,16 @@
 <body>
   <%- include('./include/header.ejs') %>
 
-    <section class="breadcrumb_area">
-      <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0" data-background="">
-      </div>
-      <div class="container">
-        <div class="page-cover text-center">
-          <h2 class="page-cover-tittle">Cart</h2>
-          <ol class="breadcrumb">
-            <li><a href="index.html">Home</a></li>
-            <li class="active">Cart</li>
-          </ol>
-        </div>
-      </div>
-    </section>
-    <!--------------------------break-scrum------------------------------->
-    <header id="site-header">
-    </header>
     <!--------------------------break-scrum------------------------------->
     <div class="container">
-      <h2>Your Order</h2>
+      <h2><%=  __('Your Order') %></h2>
       <ul class="responsive-table">
         <li class="table-header">
-          <div class="col col-1">Order</div>
-          <div class="col col-2">Code</div>
-          <div class="col col-3">Date</div>
-          <div class="col col-4">Status</div>
-          <div class="col col-5">Action</div>
+          <div class="col col-1"><%=  __('Order') %></div>
+          <div class="col col-2"><%=  __('Code') %></div>
+          <div class="col col-3"><%=  __('Date') %></div>
+          <div class="col col-4"><%=  __('Status') %></div>
+          <div class="col col-5"><%=  __('Action') %></div>
         </li>
         <% for(let i=0;i< orders.length ; i++){ %>
           <li class="table-row">
@@ -58,7 +42,7 @@
             <div class="col col-2" data-label="Customer Name"><%= orders[i].code %></div>
             <div class="col col-3" data-label="Amount"><%= orders[i].date.toLocaleString() %></div>
             <div class="col col-4" data-label="Payment Status"><%= orders[i].status %></div>
-            <div class="col col-5" data-label="Payment Status"><a href="/order/<%= orders[i].id %>">Show</a></div>
+            <div class="col col-5" data-label="Payment Status"><a href="/order/<%= orders[i].id %>"><%=  __('Show') %></a></div>
           </li>
           <% }%>
       </ul>

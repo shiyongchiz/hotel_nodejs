@@ -26,29 +26,29 @@
     <div class='login-background'>
       <div class='login-container'>
         <div class='login-content row'>
-          <div class='col-12 text-center login-text'>Login </div>
+          <div class='col-12 text-center login-text'><%=  __('Login') %> </div>
           <div class='col-12 form-group login-input'>
-            <label>Email</label>
-            <input type='text' class='form-control' placeholder='Email' id="email" name="email" value="<%= data.email %>"></input>
+            <label><%=  __('Email') %></label>
+            <input type='text' class='form-control' placeholder="<%=  __('Email') %>" id="email" name="email" value="<%= data.email %>"></input>
           </div>
           <div class='col-12 form-group login-input'>
-            <label>Password</label>
+            <label><%=  __('Password') %></label>
             <div class='custom-input-password'>
-              <input type="password" class='form-control' placeholder='Password'  id="password" name="password" />
+              <input type="password" class='form-control' placeholder="<%=  __('Password') %>"  id="password" name="password" />
             </div>
           </div>
           <div class='col-12' style="color: red"> <%= data.err %></div>
           <div class='col-12'>
-            <input type="submit" class='btn-login' value='Login' />
+            <input type="submit" class='btn-login' value="<%=  __('Login') %>" />
           </div>
           <div class='col-6'>
-            <span class='forgot-pw'><a href="/login"><u>Forgot password?</u></a></span>
+            <span class='forgot-pw'><a href="/login"><u><%=  __('Forgot password') %>?</u></a></span>
           </div>
           <div class='col-6'>
-            <span class='forgot-pw'><a href="/registry"><u>Don't have an account?</u></a></span>
+            <span class='forgot-pw'><a href="/registry"><u><%=  __('Don\'t have an account') %>?</u></a></span>
           </div>
           <div class='col-12 text-center mt-3'>
-            <span class='login-with'>Or login with: </span>
+            <span class='login-with'><%=  __('Or login with') %>: </span>
           </div>
           <div class='col-12 social-login'>
             <i class="fa fa-google google"></i>

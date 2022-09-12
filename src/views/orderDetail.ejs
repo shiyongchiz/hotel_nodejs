@@ -25,26 +25,10 @@
     <%- include('./include/header.ejs') %>
 
 
-        <!--================Breadcrumb Area =================-->
-        <section class="breadcrumb_area">
-            <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0"
-                data-background=""></div>
-            <div class="container">
-                <div class="page-cover text-center">
-                    <h2 class="page-cover-tittle">Cart</h2>
-                    <ol class="breadcrumb">
-                        <li><a href="/index.html">Home</a></li>
-                        <li class="active">Cart</li>
-                    </ol>
-                </div>
-            </div>
-        </section>
-        <!--================Breadcrumb Area =================-->
-
         <!--================ Cart  =================-->
             <header id="site-header">
                 <div class="container">
-                    <h1>ORDER-DETAIL</h1>
+                    <h1><%=  __('Order Detail') %></h1>
                 </div>
             </header>
 
@@ -84,13 +68,13 @@
                 <div class="container clearfix">
 
                     <div class="left">
-                        <h2 class="subtotal">Subtotal: <span></span>$</h2>
-                        <h3 class="tax">Taxes (5%): <span></span>$</h3>
+                        <h2 class="subtotal"><%=  __('Subtotal') %>: <span></span>$</h2>
+                        <h3 class="tax"><%=  __('Taxes') %> (5%): <span></span>$</h3>
                     </div>
 
                     <div class="right">
-                        <h1 class="total">Total: <span></span>$</h1>
-                        <a class="btn-od" href="/order">Checkout</a>
+                        <h1 class="total"><%=  __('Total') %>: <span></span>$</h1>
+                        <a class="btn-od" href="/order"><%=  __('Return') %></a>
                     </div>
 
                 </div>

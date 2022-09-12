@@ -3,7 +3,7 @@ var controller=require("../controller/control.controller");
 var router= express.Router();
 const validate = require('../validate/validate')
 
-
+  router.get('/lang/:lang',controller.changeLanguage);
   router.post('/login',validate.handleLoginValidate,controller.handleLogin)
   router.get('/display-all-users',controller.displayUsers)
   router.get('/update-user',controller.updateUser)
