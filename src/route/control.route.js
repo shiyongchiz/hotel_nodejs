@@ -5,6 +5,7 @@ const validate = require('../validate/validate')
 
   router.get('/lang/:lang',controller.changeLanguage);
   router.post('/login',validate.handleLoginValidate,controller.handleLogin)
+  router.get('/logout',controller.handleLogout)
   router.get('/display-all-users',controller.displayUsers)
   router.get('/update-user',controller.updateUser)
   router.get('/delete-user',controller.deleteUser)

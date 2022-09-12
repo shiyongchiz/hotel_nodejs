@@ -4,6 +4,8 @@ var cartRouter = require("./cart.route.js");
 var userRouter = require("./user.route.js");
 var orderRouter = require("./order.route.js");
 const { authenticateToken } = require("../middleware/JWTAction.js");
+const { isAuth } = require("../middleware/AuthenticateSession.js");
+
 const { cloudinary } = require('../utils/cloudinary/cloudinary');
 const e = require("express");
 var db = require('../models/index')
@@ -18,11 +20,16 @@ let initRoutes = (app) => {
       res.render('login/signup')
     })
   app.use('/control', controlRouter);
-  app.use('/room', authenticateToken, roomRouter);
-  app.use('/cart', authenticateToken, cartRouter)
-  app.use('/order', authenticateToken, orderRouter)
-  app.use('/information', authenticateToken, userRouter)
-  app.get('/', authenticateToken, async (req, res) => {
+  app.use('/room', authenticateToken, isAuth, roomRouter);
+  app.use('/cart', authenticateToken, isAuth, cartRouter)
+  app.use('/order', authenticateToken, isAuth, orderRouter)
+  app.use('/information', authenticateToken, isAuth, userRouter)
+
+  app.get('/vi', (req, res) => {
+    res.cookie('lang', 'vi', { maxAge: 900000 });
+  })
+
+  app.get('/', authenticateToken, isAuth, async (req, res) => {
     rooms = await db.Room.findAll()
     res.render('index', {
       homepage: 'homepage',
@@ -32,6 +39,9 @@ let initRoutes = (app) => {
 
   app.get('/login',
     (req, res) => {
+      // req.session.isAuth = true;
+      // console.log(req.session);
+      // console.log(req.session.id);
       res.render('login/login', {
         data: req.query
       })

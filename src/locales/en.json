@@ -41,5 +41,12 @@
 	"Password": "Password",
 	"Forgot password": "Forgot password",
 	"Don't have an account": "Don't have an account",
-	"Or login with": "Or login with"
+	"Or login with": "Or login with",
+	"Your Order": "Your Order",
+	"Order": "Order",
+	"Code": "Code",
+	"Date": "Date",
+	"Status": "Status",
+	"Action": "Action",
+	"Show": "Show"
 }

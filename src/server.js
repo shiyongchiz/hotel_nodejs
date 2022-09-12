@@ -5,7 +5,14 @@ var initRoutes = require('./route/web')
 var {connectDB} = require("./config/connectDB")
 const cors = require('cors');
 var i18n = require('i18n')
+const session = require('express-session')
+const { sequelize } = require("./config/connectDB")
+const SequelizeStore = require('connect-session-sequelize')(session.Store)
 
+
+var myStore = new SequelizeStore({
+  db: sequelize,
+});
 
 i18n.configure({
   locales:['en', 'vi'],
@@ -25,14 +32,19 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
 
+app.use(session({
+  secret: 'sssss',
+  store: myStore,
+  resave: false, //evey request to the server, the session will be refreshed
+  saveUninitialized: true // do not modified the session
+}))
+myStore.sync();
+
 
 app.use(cookieParser())
 app.use(i18n.init);
 
-app.get('/vi', (req,res)=>{
-  res.cookie('lang', 'vi', { maxAge: 900000 });
-  
-})
+
 initRoutes(app)
 app.use(express.static( __dirname + '/public/'))
 

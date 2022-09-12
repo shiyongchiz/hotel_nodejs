@@ -36,7 +36,10 @@ const control_controller = {
         if (userData.errCode != 0) {
           return res.redirect(`/login?err=${userData.message}&email=${email}`)
         }
-        else return res.redirect('/')
+        else {
+          req.session.isAuth = true;
+          return res.redirect('/')
+        }
       } catch (e) {
         console.log(e);
         return helperfn.returnFail(req, res, e)
@@ -124,6 +127,18 @@ const control_controller = {
       } catch (e) {
         res.send(e)
       }
-    }
+    },
+  handleLogout:
+    catchAsync(async (err, req, res) => {
+      try {
+        req.session.destroy((err)=>{
+          if(err) throw err;
+          res.redirect('/');
+        })
+      } catch (e) {
+        console.log(e);
+        return helperfn.returnFail(req, res, e)
+      }
+    }),
 }
 module.exports = control_controller
