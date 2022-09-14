@@ -18,6 +18,12 @@
 .login-container .login-content {
   padding: 15px;
 }
+
+.login-container .login-content .success{
+  font-size: 20px;
+  background: transparent;
+}
+
 .login-container .login-content .login-text {
   text-align: center;
   font-weight: 800;
@@ -47,10 +53,10 @@
   color: white;
 }
 .login-container .login-content .forgot-pw {
-  font-size: 12px;
+  font-size: 13px;
 }
 .login-container .login-content .login-with {
-  font-size: 12px;
+  font-size: 13px;
 }
 .login-container .login-content .social-login {
   display: flex;

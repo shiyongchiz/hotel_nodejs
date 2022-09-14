@@ -5,6 +5,8 @@ const { generateJWT } = require('../middleware/JWTAction');
 const { returnSuccess, returnFail } = require('../utils/helperFn');
 const catchAsync = require('../utils/errorHandle/catchAsync');
 const nodemailer = require('nodemailer');
+const { imageProcess } = require('../utils/cloudinary/cloudinary');
+
 
 let handleLoginService = async (email, password) => {
   let userData = { token: "" };
@@ -74,26 +76,30 @@ let getAllUsers = async (userId) => {
   }
 }
 
-let createUser = async (data) => {
+let createUser = async (data, image) => {
   try {
-    // let checkEmail = await checkUserEmail(data.email)
-    // if (checkEmail) {
-    //   return resolve({
-    //     errCode: 1,
-    //     message: 'The email is already used!'
-    //   })
-    // }
+    let checkEmail = await checkUserEmail(data.email)
+    if (checkEmail) {
+      return {
+        data,
+        errCode: 1,
+        message: 'The email is already used!'
+      }
+    }
     let hashPasswordFromBcript = await hashUserPassword(data.password);
-    await db.User.create({
+    let user = await db.User.create({
       userName: data.userName,
       email: data.email,
       password: hashPasswordFromBcript,
       address: data.address,
       phone: data.phone,
+      address: data.address,
       image: data.image,
     })
-
+    let userId = user.dataValues.id;
+    imageProcess.upload(image,userId)
     return {
+      user: user.dataValues,
       errCode: 0,
       message: 'Create success!'
     }

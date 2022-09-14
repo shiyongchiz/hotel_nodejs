@@ -1,9 +1,9 @@
+const { response } = require('express');
 const { generateJWTForVerifyRegister, verifyToken } = require('../middleware/JWTAction');
 const db = require('../models');
 const service = require('../service/controlService');
 const catchAsync = require('../utils/errorHandle/catchAsync');
 const helperfn = require('../utils/helperFn');
-
 
 const control_controller = {
   changeLanguage:
@@ -61,33 +61,33 @@ const control_controller = {
     }),
   createUser:
     async (req, res) => {
-      let data = await service.createUser(req.body)
-      if (data.errCode) {
-        return console.log(data.message)
-      }
-      // else res.redirect('display-all-users')
-      else {
-        try {
-          let user = await db.User.findOne({
-            where: { email: req.body.email },
-            attributes: {
-              exclude: ['password']
-            },
-          });
-
-          const emailToken = generateJWTForVerifyRegister(user.id)
-          const url = `http://localhost:8080/user/confirmation/${emailToken}`
-          let message = service.sendMail(url)
-          if (message) {
-            return res.send(message + '\nplease go to the email to confirm registry')
-          }
-          else {
-            console.log(message);
-            return res.send(message + '\nsend email fail!')
-          }
-        } catch (error) {
-          res.send(error)
+      try {
+        req.body.image = req.file.originalname;
+        let data = await service.createUser(req.body, req.file)
+        if (data.errCode) {
+          let msg = data.message
+          return res.render('login/signup',{
+            msg,
+            data: data.data
+          })
         }
+        else {
+          id = data.user.id;
+          const emailToken = generateJWTForVerifyRegister(id)
+          const url = `http://localhost:8080/user/confirmation/${emailToken}`
+          // let message = service.sendMail(url)
+          // if (message) {
+          //   return res.send(message + '\nplease go to the email to confirm registry')
+          // }
+          // else {
+          //   console.log(message);
+          //   return res.send(message + '\nsend email fail!')
+          // }
+          return res.redirect(`/login?success=Sign up successfully`)
+        }
+      }
+      catch (error) {
+        res.send(error)
       }
     },
   displayUsers:
@@ -131,8 +131,8 @@ const control_controller = {
   handleLogout:
     catchAsync(async (err, req, res) => {
       try {
-        req.session.destroy((err)=>{
-          if(err) throw err;
+        req.session.destroy((err) => {
+          if (err) throw err;
           res.redirect('/');
         })
       } catch (e) {
