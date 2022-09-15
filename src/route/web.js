@@ -1,110 +1,110 @@
-var controlRouter = require("./control.route.js");
-var roomRouter = require("./room.route.js");
-var cartRouter = require("./cart.route.js");
-var userRouter = require("./user.route.js");
-var orderRouter = require("./order.route.js");
-const { authenticateToken } = require("../middleware/JWTAction.js");
-const { isAuth } = require("../middleware/AuthenticateSession.js");
+const controlRouter = require('./control.route');
+const roomRouter = require('./room.route');
+const cartRouter = require('./cart.route');
+const userRouter = require('./user.route');
+const orderRouter = require('./order.route');
+const { authenticateToken } = require('../middleware/JWTAction');
+const { isAuth } = require('../middleware/AuthenticateSession');
 
 const { cloudinary } = require('../utils/cloudinary/cloudinary');
-const e = require("express");
-var db = require('../models/index')
-let initRoutes = (app) => {
+const db = require('../models/index');
 
-  app.get('/registry',
+const initRoutes = (app) => {
+  app.get(
+    '/registry',
     (req, res) => {
-      res.render('login/registry')
-    })
-  app.get('/signup',
+      res.render('login/registry');
+    },
+  );
+  app.get(
+    '/signup',
     (req, res) => {
-      res.render('login/signup')
-    })
+      res.render('login/signup');
+    },
+  );
   app.use('/control', controlRouter);
   app.use('/room', authenticateToken, isAuth, roomRouter);
-  app.use('/cart', authenticateToken, isAuth, cartRouter)
-  app.use('/order', authenticateToken, isAuth, orderRouter)
-  app.use('/information', authenticateToken, isAuth, userRouter)
+  app.use('/cart', authenticateToken, isAuth, cartRouter);
+  app.use('/order', authenticateToken, isAuth, orderRouter);
+  app.use('/information', authenticateToken, isAuth, userRouter);
 
   app.get('/vi', (req, res) => {
     res.cookie('lang', 'vi', { maxAge: 900000 });
-  })
+  });
 
   app.get('/', authenticateToken, isAuth, async (req, res) => {
-    rooms = await db.Room.findAll()
+    const rooms = await db.Room.findAll();
     res.render('index', {
       homepage: 'homepage',
-      rooms: rooms
-    })
-  })
+      rooms,
+    });
+  });
 
-  app.get('/login',
+  app.get(
+    '/login',
     (req, res) => {
       // req.session.isAuth = true;
       // console.log(req.session);
       // console.log(req.session.id);
       res.render('login/login', {
-        data: req.query
-      })
-    })
-  app.post('/api/upload', async (req, res) => {
+        data: req.query,
+      });
+    },
+  );
+  app.post('/api/upload', async (req) => {
     try {
       const fileStr = req.body.image;
       const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
-        upload_preset: 'dev_setups'
-      })
+        upload_preset: 'dev_setups',
+      });
       console.log(uploadedResponse);
     } catch (e) {
       console.log(e);
     }
-  })
+  });
   app.get('/api/upload', (req, res) => {
-    res.render('api/upload')
-  })
+    res.render('api/upload');
+  });
   app.get('/api/images', async (req, res) => {
     const { resources } = await cloudinary.search
       .expression('folder:dev_setups')
       .sort_by('public_id', 'desc')
       .max_results(30)
-      .execute()
-    const publicIds = resources.map(file => file.public_id)
-    res.send(publicIds)
-  })
+      .execute();
+    const publicIds = resources.map((file) => file.public_id);
+    res.send(publicIds);
+  });
 
   app.get('/api/image', async (req, res) => {
-    var result = [];
+    const result = [];
     // const sss = await cloudinary.api.root_folders(function (error, result) { console.log(result); });
     await listResources(null, result, 0);
-    console.log("============================================================", result);
-  })
-
-}
+  });
+};
 async function listResources(next_cursor, result) {
-  var options = { resource_type: "image", folder: "dev_setups", max_results: 30 };
+  const options = { resource_type: 'image', folder: 'dev_setups', max_results: 30 };
   if (next_cursor) {
-    options["next_cursor"] = next_cursor;
+    options.next_cursor = next_cursor;
   }
-  await cloudinary.api.resources(options, async function (error, res) { //res here is result, not response
+  await cloudinary.api.resources(options, async (error, res) => { // res here is result, not response
     if (error) {
       console.log(error);
     }
-    var more = res.next_cursor;
+    const more = res.next_cursor;
     resources = res.resources;
-    console.log("length is: ", resources.length);
+    console.log('length is: ', resources.length);
     let j = 0;
     for (var res in resources) {
       res = resources[res];
-      var resultTemp = [];
-      var url = res.secure_url;
+      const resultTemp = [];
+      const url = res.secure_url;
       resultTemp.push(j);
       // resultTemp.push(url);
       result.push(resultTemp);
       j += 1;
     }
     console.log(result);
-    if (more) { await listResources(more, result); }
-    else { console.log("done"); }
+    if (more) { await listResources(more, result); } else { console.log('done'); }
   });
-
-
 }
-module.exports = initRoutes
+module.exports = initRoutes;

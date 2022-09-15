@@ -1,10 +1,10 @@
-var express=require('express');
+const express = require('express');
 
-var controller=require("../controller/room.controller");
+const controller = require('../controller/room.controller');
 
-var router= express.Router();
+const router = express.Router();
 
-router.get('/',controller.roomPage)
-router.get('/book-room',controller.bookRoom)
+router.get('/', controller.roomPage);
+router.get('/book-room', controller.bookRoom);
 
-module.exports= router
+module.exports = router;
