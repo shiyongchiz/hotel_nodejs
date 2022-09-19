@@ -1,4 +1,3 @@
-'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Room', {
@@ -6,31 +5,31 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       roomName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       detail: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       price: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       reserve: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       hot: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       active: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       categoryId: {
         allowNull: true,
@@ -40,20 +39,20 @@ module.exports = {
         references: {
           model: 'Category',
           key: 'id',
-          as: 'categoryId'
-        }
+          as: 'categoryId',
+        },
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('Room');
-  }
+  },
 };

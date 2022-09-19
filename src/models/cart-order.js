@@ -1,7 +1,7 @@
-'use strict';
 const {
-  Model
+  Model,
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class CartOrder extends Model {
     /**
@@ -11,16 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.Cart, {
-        foreignKey: "cartId",
+        foreignKey: 'cartId',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-      })
+      });
       this.belongsTo(models.Order, {
-        foreignKey: "orderId",
+        foreignKey: 'orderId',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-      })
-
+      });
     }
   }
   CartOrder.init({
@@ -28,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     cartId: {
       allowNull: true,
@@ -37,8 +36,8 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       references: {
         model: 'Cart',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
     orderId: {
       allowNull: true,
@@ -47,13 +46,13 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       references: {
         model: 'Order',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
   }, {
     sequelize,
     modelName: 'CartOrder',
-    freezeTableName: true
+    freezeTableName: true,
   });
   return CartOrder;
 };

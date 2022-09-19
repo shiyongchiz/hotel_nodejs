@@ -40,7 +40,6 @@ const getAllUsers = async (userId) => {
       return {
         errCode: 1,
         message: 'Invalid input parameter(s)',
-        users,
       };
     }
     let users = [];
@@ -52,7 +51,7 @@ const getAllUsers = async (userId) => {
         // attributes: ['userName','email', 'address']
       });
     } else if (userId) {
-      user = await db.User.findOne({
+      const user = await db.User.findOne({
         where: { id: userId },
         attributes: {
           exclude: ['password'],

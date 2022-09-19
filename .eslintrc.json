@@ -13,6 +13,11 @@
   "rules": {
     "import/no-extraneous-dependencies": "off",
     "linebreak-style": "off",
-    "max-len": "off"
+    "max-len": "off",
+    "no-console": "off",
+    "no-restricted-syntax": "off",
+    "no-await-in-loop":"off",
+    "eqeqeq":"off",
+    "quotes":"off"
   }
 }

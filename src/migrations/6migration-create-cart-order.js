@@ -1,7 +1,3 @@
-'use strict';
-
-const sequelize = require("sequelize");
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('CartOrder', {
@@ -9,7 +5,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       cartId: {
         allowNull: true,
@@ -18,8 +14,8 @@ module.exports = {
         onDelete: 'CASCADE',
         references: {
           model: 'Cart',
-          key: 'id'
-        }
+          key: 'id',
+        },
       },
       orderId: {
         allowNull: true,
@@ -28,20 +24,20 @@ module.exports = {
         onDelete: 'CASCADE',
         references: {
           model: 'Order',
-          key: 'id'
-        }
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('CartOrder');
-  }
+  },
 };

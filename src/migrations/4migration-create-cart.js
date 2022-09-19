@@ -1,4 +1,3 @@
-'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Cart', {
@@ -6,10 +5,10 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       quantity: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       userId: {
         allowNull: true,
@@ -18,8 +17,8 @@ module.exports = {
         onDelete: 'CASCADE',
         references: {
           model: 'User',
-          key: 'id'
-        }
+          key: 'id',
+        },
       },
       roomId: {
         allowNull: true,
@@ -28,32 +27,32 @@ module.exports = {
         onDelete: 'CASCADE',
         references: {
           model: 'Room',
-          key: 'id'
-        }
+          key: 'id',
+        },
       },
       arrival: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       departure: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       onCart: {
         allowNull: false,
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('Cart');
-  }
+  },
 };

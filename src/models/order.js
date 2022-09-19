@@ -1,7 +1,7 @@
-'use strict';
 const {
-  Model
+  Model,
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
     /**
@@ -11,16 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.User, {
-        uniqueKey: "userId",
+        uniqueKey: 'userId',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-      })
-      this.belongsToMany(models.Cart,{
-        through: models.CartOrder
-      })
+      });
+      this.belongsToMany(models.Cart, {
+        through: models.CartOrder,
+      });
       this.hasMany(models.CartOrder, {
-        foreignKey: "orderId",
-      })
+        foreignKey: 'orderId',
+      });
     }
   }
   Order.init({
@@ -28,18 +28,18 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     code: DataTypes.STRING,
     date: DataTypes.DATE,
     status: {
       allowNull: false,
-      type: DataTypes.ENUM('pending','reject','success'),
-      defaultValue: 'pending'
+      type: DataTypes.ENUM('pending', 'reject', 'success'),
+      defaultValue: 'pending',
     },
     adminAction: {
-      type: DataTypes.ENUM('cancel','accept','pending'),
-      defaultValue: 'pending'
+      type: DataTypes.ENUM('cancel', 'accept', 'pending'),
+      defaultValue: 'pending',
     },
     payment: DataTypes.STRING,
     total: DataTypes.FLOAT,
@@ -50,13 +50,13 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       references: {
         model: 'User',
-        key: 'id'
-      }
-    }
+        key: 'id',
+      },
+    },
   }, {
     sequelize,
     modelName: 'Order',
-    freezeTableName: true
+    freezeTableName: true,
   });
   return Order;
 };

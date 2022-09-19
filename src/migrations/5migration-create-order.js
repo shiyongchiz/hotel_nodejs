@@ -1,7 +1,3 @@
-'use strict';
-
-const sequelize = require("sequelize");
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Order', {
@@ -9,28 +5,28 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       code: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       date: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       status: {
         allowNull: false,
         type: Sequelize.ENUM('pending', 'reject', 'success'),
-        defaultValue: 'pending'
+        defaultValue: 'pending',
       },
       adminAction: {
-        type: Sequelize.ENUM('cancel','accept','pending'),
-        defaultValue: 'pending'
+        type: Sequelize.ENUM('cancel', 'accept', 'pending'),
+        defaultValue: 'pending',
       },
       total: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
       },
       payment: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       userId: {
         allowNull: true,
@@ -39,20 +35,20 @@ module.exports = {
         onDelete: 'CASCADE',
         references: {
           model: 'User',
-          key: 'id'
-        }
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('Order');
-  }
+  },
 };

@@ -1,7 +1,7 @@
-'use strict';
 const {
-  Model
+  Model,
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Room extends Model {
     /**
@@ -11,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.Category, {
-        foreignKey: "categoryId",
+        foreignKey: 'categoryId',
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-      })
+        onDelete: 'CASCADE',
+      });
       this.hasMany(models.Cart, {
-        foreignKey: "roomId",
-      })
+        foreignKey: 'roomId',
+      });
     }
   }
   Room.init({
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     roomName: DataTypes.STRING,
     detail: DataTypes.STRING,
@@ -42,13 +42,13 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       references: {
         model: 'Category',
-        key: 'id'
-      }
-    }
+        key: 'id',
+      },
+    },
   }, {
     sequelize,
     modelName: 'Room',
-    freezeTableName: true
+    freezeTableName: true,
   });
   return Room;
 };

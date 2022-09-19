@@ -1,11 +1,9 @@
-'use strict';
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Room', [{
       roomName: 'VIP Room',
-      detail: "loren sum",
-      description: "loren sum",
+      detail: 'loren sum',
+      description: 'loren sum',
       price: 500,
       reserve: 10,
       hot: true,
@@ -17,8 +15,8 @@ module.exports = {
     },
     {
       roomName: 'Royal Room',
-      detail: "loren sum",
-      description: "loren sum",
+      detail: 'loren sum',
+      description: 'loren sum',
       price: 400,
       reserve: 10,
       hot: true,
@@ -30,8 +28,8 @@ module.exports = {
     },
     {
       roomName: 'Luxury Room',
-      detail: "loren sum",
-      description: "loren sum",
+      detail: 'loren sum',
+      description: 'loren sum',
       price: 700,
       reserve: 10,
       hot: true,
@@ -43,8 +41,8 @@ module.exports = {
     },
     {
       roomName: 'Standard Room',
-      detail: "loren sum",
-      description: "loren sum",
+      detail: 'loren sum',
+      description: 'loren sum',
       price: 300,
       reserve: 10,
       hot: true,
@@ -56,8 +54,8 @@ module.exports = {
     },
     {
       roomName: 'Business Room',
-      detail: "loren sum",
-      description: "loren sum",
+      detail: 'loren sum',
+      description: 'loren sum',
       price: 350,
       reserve: 10,
       hot: true,
@@ -76,5 +74,5 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-  }
+  },
 };

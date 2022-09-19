@@ -1,7 +1,7 @@
-'use strict';
 const {
-  Model
+  Model,
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Cart extends Model {
     /**
@@ -11,22 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.Room, {
-        foreignKey: "roomId",
+        foreignKey: 'roomId',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-      })
+      });
       this.belongsTo(models.User, {
-        foreignKey: "userId",
+        foreignKey: 'userId',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-      })
+      });
       this.belongsToMany(models.Order, {
-        through: models.CartOrder
-      })
+        through: models.CartOrder,
+      });
       this.hasMany(models.CartOrder, {
-        foreignKey: "cartId",
-      })
-
+        foreignKey: 'cartId',
+      });
     }
   }
   Cart.init({
@@ -34,12 +33,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     quantity: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      defaultValue: 0
+      defaultValue: 0,
     },
     arrival: {
       allowNull: false,
@@ -57,8 +56,8 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       references: {
         model: 'User',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
     roomId: {
       allowNull: true,
@@ -67,13 +66,13 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       references: {
         model: 'Room',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
   }, {
     sequelize,
     modelName: 'Cart',
-    freezeTableName: true
+    freezeTableName: true,
   });
   return Cart;
 };
