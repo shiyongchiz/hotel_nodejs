@@ -48,5 +48,7 @@
 	"Date": "Date",
 	"Status": "Status",
 	"Action": "Action",
-	"Show": "Show"
+	"Show": "Show",
+	"Order Detail": "Order Detail",
+	"Return": "Return"
 }

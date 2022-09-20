@@ -1,15 +1,15 @@
-exports.returnSuccess = (req, res, code = 0, data = '', message = '') => res.status(200).json({
-  code,
-  status: 'success',
-  data,
-  message,
-});
-
-exports.returnFail = (req, res, code, err) => {
-  const message = JSON.stringify(err, Object.getOwnPropertyNames(err));
-  return res.status(400).json({
-    code,
-    status: 'fail',
+exports.returnSuccess = (req, res, message = "", data = "") => {
+  res.status(200).json({
+    code: 0,
+    status: "success",
     message,
+    data,
+  });
+};
+exports.returnFail = (req, res, err) => {
+  res.status(400).json({
+    code: err.statusCode ? err.statusCode : "4",
+    status: err.status ? err.status : "error",
+    message: err.message,
   });
 };

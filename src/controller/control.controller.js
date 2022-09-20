@@ -1,11 +1,11 @@
 const {
   // generateJWTForVerifyRegister,
   verifyToken,
-} = require("../../middleware/JWTAction");
-const db = require("../../models");
-const service = require("../../service/controlService");
-const catchAsync = require("../../utils/errorHandle/catchAsync");
-const helperfn = require("../../utils/helperFn");
+} = require("../middleware/JWTAction");
+const db = require("../models");
+const service = require("../service/controlService");
+const catchAsync = require("../utils/errorHandle/catchAsync");
+const helperfn = require("../utils/helperFn");
 
 const controlController = {
   changeLanguage: catchAsync(async (err, req, res) => {

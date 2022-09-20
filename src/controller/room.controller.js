@@ -1,9 +1,9 @@
-const { verifyToken } = require("../../middleware/JWTAction");
+const { verifyToken } = require("../middleware/JWTAction");
 // const helperFn = require("../../utils/helperFn");
-const db = require("../../models");
+const db = require("../models");
 
 const roomController = {
-  roomPage: async (req, res) => {
+  createRoom: async (req, res) => {
     const rooms = await db.Room.findAll();
     res.render("room", {
       rooms,

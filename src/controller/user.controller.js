@@ -1,5 +1,5 @@
-const { verifyToken } = require("../../middleware/JWTAction");
-const db = require("../../models");
+const { verifyToken } = require("../middleware/JWTAction");
+const db = require("../models");
 // const catchAsync = require("../../utils/errorHandle/catchAsync");
 // const helperfn = require("../../utils/helperFn");
 

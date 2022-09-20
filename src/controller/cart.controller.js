@@ -1,8 +1,8 @@
-const { verifyToken } = require('../../middleware/JWTAction');
-const db = require('../../models');
-const catchAsync = require('../../utils/errorHandle/catchAsync');
-const { returnSuccess, returnFail } = require('../../utils/helperFn');
-const { sequelize } = require('../../config/connectDB');
+const { verifyToken } = require('../middleware/JWTAction');
+const db = require('../models');
+const catchAsync = require('../utils/errorHandle/catchAsync');
+const { returnSuccess, returnFail } = require('../utils/helperFn');
+const { sequelize } = require('../config/connectDB');
 
 const checkout = catchAsync(async (req, res) => {
   try {
