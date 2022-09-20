@@ -79,7 +79,8 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { categoryId } = req.params;
-    if (!categoryId) {
+    const { categoryName } = req.body;
+    if (!categoryId || !categoryName) {
       throw new AppError(
         format(COMMON_MESSAGES.INVALID, categoryId),
         RETURNCODE.INVALID
@@ -87,19 +88,24 @@ const update = async (req, res) => {
     }
     const CategoryFetch = await db.Category.findOne({
       where: {
-        categoryId,
+        id: categoryId,
       },
     });
-    if (CategoryFetch) {
+    if (!CategoryFetch) {
       throw new AppError(
-        format(COMMON_MESSAGES.EXISTED, categoryId),
-        RETURNCODE.EXISTED
+        format(COMMON_MESSAGES.NOT_FOUND, categoryId),
+        RETURNCODE.NOT_FOUND
       );
     }
-    const newCategory = await db.Category.create({
-      categoryId,
-    });
-    return returnSuccess(req, res, COMMON_MESSAGES.SUCCESS, newCategory);
+    const updateCategory = await db.Category.update(
+      { categoryName },
+      {
+        where: {
+          id: categoryId,
+        },
+      }
+    );
+    return returnSuccess(req, res, COMMON_MESSAGES.SUCCESS, updateCategory);
   } catch (error) {
     return returnFail(req, res, error);
   }
