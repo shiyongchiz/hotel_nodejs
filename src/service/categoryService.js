@@ -26,7 +26,7 @@ const getOne = async (req, res) => {
         RETURNCODE.NOT_FOUND
       );
     }
-    return returnSuccess(req, res, COMMON_MESSAGES.SUCCESS, CategoryFetch);
+    return returnSuccess(req, res, RETURNCODE.SUCCESS, CategoryFetch);
   } catch (error) {
     return returnFail(req, res, error);
   }
@@ -41,7 +41,7 @@ const getAll = async (req, res) => {
         RETURNCODE.ERROR
       );
     }
-    return returnSuccess(req, res, COMMON_MESSAGES.SUCCESS, CategoryFetch);
+    return returnSuccess(req, res, RETURNCODE.SUCCESS, CategoryFetch);
   } catch (error) {
     return returnFail(req, res, error);
   }
@@ -58,7 +58,7 @@ const getByName = async (req,res) => {
         categoryName:keyword
       }
     })
-    return returnSuccess(req, res, COMMON_MESSAGES.SUCCESS, CategoryFetch);
+    return returnSuccess(req, res, RETURNCODE.SUCCESS, CategoryFetch);
 
   }catch(error) {
     return returnFail(req,res,error);
@@ -88,7 +88,7 @@ const create = async (req, res) => {
     const newCategory = await db.Category.create({
       categoryName,
     });
-    return returnSuccess(req, res, COMMON_MESSAGES.SUCCESS, newCategory);
+    return returnSuccess(req, res, RETURNCODE.SUCCESS, newCategory);
   } catch (error) {
     return returnFail(req, res, error);
   }
@@ -123,7 +123,7 @@ const update = async (req, res) => {
         },
       }
     );
-    return returnSuccess(req, res, COMMON_MESSAGES.SUCCESS, updateCategory);
+    return returnSuccess(req, res, RETURNCODE.SUCCESS, updateCategory);
   } catch (error) {
     return returnFail(req, res, error);
   }

@@ -1,15 +1,23 @@
 const bcrypt = require ('bcrypt');
-exports.returnSuccess = (req, res, message = "", data = "") => {
+
+exports.returnSuccess = (req, res, code) => {
   res.status(200).json({
-    code: 0,
+    code: 200,
     status: "success",
-    message,
+  });
+};
+
+exports.returnSuccess = (req, res, code, data = "") => {
+  res.status(200).json({
+    code: 200,
+    status: "success",
     data,
   });
 };
+
 exports.returnFail = (req, res, err) => {
   res.status(400).json({
-    code: err.statusCode ? err.statusCode : "4",
+    code: err.statusCode ? err.statusCode : "404",
     status: err.status ? err.status : "error",
     message: err.message,
   });
