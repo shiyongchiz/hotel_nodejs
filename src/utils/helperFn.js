@@ -1,3 +1,4 @@
+const bcrypt = require ('bcrypt');
 exports.returnSuccess = (req, res, message = "", data = "") => {
   res.status(200).json({
     code: 0,
@@ -12,4 +13,10 @@ exports.returnFail = (req, res, err) => {
     status: err.status ? err.status : "error",
     message: err.message,
   });
+};
+
+exports.hashPassword = async(password) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(password,salt);
+  return hashPassword;
 };

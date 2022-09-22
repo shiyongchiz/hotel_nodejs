@@ -47,6 +47,24 @@ const getAll = async (req, res) => {
   }
 };
 
+const getByName = async (req,res) => {
+  try{
+    const {keyword} = req.query;
+    if(!keyword) {
+      throw new AppError(format(COMMON_MESSAGES.INPUT_KEYWORD));
+    }
+    const CategoryFetch = await db.Category.findAll({
+      where: {
+        categoryName:keyword
+      }
+    })
+    return returnSuccess(req, res, COMMON_MESSAGES.SUCCESS, CategoryFetch);
+
+  }catch(error) {
+    return returnFail(req,res,error);
+  }
+}
+
 const create = async (req, res) => {
   try {
     const { categoryName } = req.body;
@@ -114,6 +132,7 @@ const update = async (req, res) => {
 module.exports = {
   create,
   getAll,
+  getByName,
   getOne,
   update,
 };

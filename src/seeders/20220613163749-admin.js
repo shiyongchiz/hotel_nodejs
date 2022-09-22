@@ -1,11 +1,10 @@
-const bcrypt = require('bcrypt');
-
+const helperFn = require('../utils/helperFn')
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Admin', [{
       adminName: 'admin',
       email: 'admin@gmail.com',
-      password: 'admin',
+      password: await helperFn.hashPassword('123456'),
       address: '12 admin',
       phone: '012321312',
       image: 'a.jpg',

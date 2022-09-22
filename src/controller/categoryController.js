@@ -1,22 +1,30 @@
-const service = require("../service/categoryService");
+const categoryService = require("../service/categoryService");
 
 const create = async (req, res) => {
   try {
-    service.create(req, res);
+    categoryService.create(req, res);
   } catch (e) {
     console.log(e);
   }
 };
 const getAll = async (req, res) => {
   try {
-    service.getAll(req, res);
+    categoryService.getAll(req, res);
   } catch (e) {
     console.log(e);
   }
 };
+const getByName = async (req,res) => {
+  try{
+    categoryService.getByName(req,res);
+  }catch(e){
+    console.log(e)
+  }
+}
+
 const getOne = async (req, res) => {
   try {
-    service.getOne(req, res);
+    categoryService.getOne(req, res);
   } catch (e) {
     console.log(e);
   }
@@ -24,14 +32,16 @@ const getOne = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    service.update(req, res);
+    categoryService.update(req, res);
   } catch (e) {
     console.log(e);
   }
 };
+
 module.exports = {
   create,
   getAll,
+  getByName,
   getOne,
   update,
 };
