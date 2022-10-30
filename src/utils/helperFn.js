@@ -1,11 +1,11 @@
-const bcrypt = require ('bcrypt');
+const bcrypt = require('bcrypt');
 
-exports.returnSuccess = (req, res, code) => {
-  res.status(200).json({
-    code: 200,
-    status: "success",
-  });
-};
+// exports.returnSuccess = (req, res, code) => {
+//   res.status(200).json({
+//     code: 200,
+//     status: "success",
+//   });
+// };
 
 exports.returnSuccess = (req, res, code, data = "") => {
   res.status(200).json({
@@ -23,8 +23,8 @@ exports.returnFail = (req, res, err) => {
   });
 };
 
-exports.hashPassword = async(password) => {
+exports.hashPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
-  const hashPassword = await bcrypt.hash(password,salt);
+  const hashPassword = await bcrypt.hash(password, salt);
   return hashPassword;
 };

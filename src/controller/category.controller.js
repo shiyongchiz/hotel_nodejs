@@ -14,13 +14,6 @@ const getAll = async (req, res) => {
     console.log(e);
   }
 };
-const getByName = async (req,res) => {
-  try{
-    categoryService.getByName(req,res);
-  }catch(e){
-    console.log(e)
-  }
-}
 
 const getOne = async (req, res) => {
   try {
@@ -38,10 +31,18 @@ const update = async (req, res) => {
   }
 };
 
+const deletes = async (req, res) => {
+  try {
+    categoryService.deletes(req, res);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 module.exports = {
   create,
   getAll,
-  getByName,
   getOne,
   update,
+  deletes
 };

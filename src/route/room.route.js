@@ -1,10 +1,12 @@
 const express = require('express');
 
-const controller = require('../controller/room.controller');
+const roomController = require('../controller/room.controller');
 
 const router = express.Router();
-
-// router.get('/', controller.roomPage);
-// router.get('/book-room', controller.bookRoom);
+router.post('/', roomController.create);
+router.get('/', roomController.getAll);
+router.get('/:fieldname/:value', roomController.getOne);
+router.put('/:fieldname/:value', roomController.update);
+router.delete('/:fieldname/:value', roomController.deletes);
 
 module.exports = router;

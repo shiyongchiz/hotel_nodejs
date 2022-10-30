@@ -1,51 +1,144 @@
-const { verifyToken } = require("../middleware/JWTAction");
-// const helperFn = require("../../utils/helperFn");
+const format = require("string-format");
 const db = require("../models");
+const { returnSuccess, returnFail } = require("../utils/helperFn");
+const { CODE } = require("../constants/code");
+const AppError = require("../utils/errorHandle/appError");
+const { convertValue, objToArr } = require('../utils/convert/convert');
+const { COMMON_MESSAGES } = require("../constants/commonMessage");
 
-const roomPage = async (req, res) => {
-  const rooms = await db.Room.findAll();
-  res.render("room", {
-    rooms,
-  });
-};
-const bookRoom = async (req, res) => {
+const create = async (req, res) => {
   try {
-    const roomId = parseInt(req.query.roomId, 10);
-    const { id: userId } = verifyToken(req.cookies.token);
-    let cart = {};
-    const cartFetch = await db.Cart.findOne({
+    const room = convertValue(req.body);
+    if (!room) {
+      throw new AppError(
+        format(COMMON_MESSAGES.INVALID, "the room"),
+        CODE.INVALID
+      );
+    }
+    const roomFetch = await db.Room.findOne({
       where: {
-        userId,
-        roomId,
-        onCart: 1,
+        roomName: room.roomName,
       },
     });
-    if (cartFetch) {
-      const cartId = cartFetch.id;
-      const quantity = cartFetch.quantity + 1;
-      cart = await db.Cart.update(
-        { quantity },
-        {
-          where: {
-            id: cartId,
-          },
-        }
+    if (roomFetch) {
+      throw new AppError(
+        format(COMMON_MESSAGES.EXISTED, room.roomName),
+        CODE.EXISTED
       );
-    } else {
-      cart = await db.Cart.create({
-        quantity: 1,
-        userId,
-        roomId,
-        onCart: 1,
-        arrival: new Date(),
-        departure: new Date(),
-      });
     }
-    console.log(cart);
-    return res.redirect("/cart");
-  } catch (e) {
-    console.log(e);
-    return e;
+    const newRoom = await db.Room.create(room);
+    return returnSuccess(req, res, CODE.SUCCESS, newRoom);
+  } catch (error) {
+    return returnFail(req, res, error);
   }
 };
-module.exports = { roomPage, bookRoom };
+
+const getOne = async (req, res) => {
+  try {
+    const { fieldname, value } = req.params;
+    if (!fieldname || !value) {
+      throw new AppError(
+        format(COMMON_MESSAGES.INVALID, fieldname),
+        CODE.INVALID
+      );
+    }
+    const condition = {};
+    condition[fieldname] = value;
+    const roomFetch = await db.Room.findAll({
+      where: condition,
+    });
+    if (roomFetch.length === 0) {
+      throw new AppError(
+        format(COMMON_MESSAGES.NOT_FOUND, value),
+        CODE.NOT_FOUND
+      );
+    }
+    return returnSuccess(req, res, CODE.SUCCESS, roomFetch);
+  } catch (error) {
+    return returnFail(req, res, error);
+  }
+};
+
+const getAll = async (req, res) => {
+  const sort = objToArr(convertValue(req.query));
+  try {
+    const roomFetch = await db.Room.findAll({ order: sort });
+    if (!roomFetch) {
+      throw new AppError(
+        format(COMMON_MESSAGES.ERROR, roomFetch),
+        CODE.ERROR
+      );
+    }
+    return returnSuccess(req, res, CODE.SUCCESS, roomFetch);
+  } catch (error) {
+    return returnFail(req, res, error);
+  }
+};
+
+const update = async (req, res) => {
+  try {
+    const { fieldname, value } = req.params;
+    const updateContents = convertValue(req.body);
+    if (!fieldname || !value) {
+      throw new AppError(
+        format(COMMON_MESSAGES.INVALID, value),
+        CODE.INVALID
+      );
+    }
+    const condition = {};
+    condition[fieldname] = value;
+    await db.Room.update(
+      updateContents,
+      {
+        where: condition,
+      }
+    ).then((result) => {
+      if (result[0] === 0) {
+        throw new AppError(
+          format(COMMON_MESSAGES.NOT_FOUND, value),
+          CODE.NOT_FOUND
+        );
+      }
+    });
+
+    return returnSuccess(req, res, CODE.SUCCESS, "update success");
+  } catch (error) {
+    return returnFail(req, res, error);
+  }
+};
+
+const deletes = async (req, res) => {
+  try {
+    const { fieldname, value } = req.params;
+    if (!fieldname || !value) {
+      throw new AppError(
+        format(COMMON_MESSAGES.INVALID, value),
+        CODE.INVALID
+      );
+    }
+    const condition = {};
+    condition[fieldname] = value;
+    await db.Room.destroy(
+      {
+        where: condition,
+      }
+    ).then((result) => {
+      if (result === 0) {
+        throw new AppError(
+          format(COMMON_MESSAGES.NOT_FOUND, value),
+          CODE.NOT_FOUND
+        );
+      }
+    });
+    return returnSuccess(req, res, CODE.SUCCESS, "delete success");
+  } catch (error) {
+    return returnFail(req, res, error);
+  }
+};
+module.exports = {
+  create,
+  getAll,
+  getOne,
+  update,
+  deletes
+};

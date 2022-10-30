@@ -3,7 +3,7 @@ const roomRouter = require('./room.route');
 const cartRouter = require('./cart.route');
 const userRouter = require('./user.route');
 const orderRouter = require('./order.route');
-const categoryRouter = require('./categoryRoute');
+const categoryRouter = require('./category.route');
 const { authenticateToken } = require('../middleware/JWTAction');
 const { isAuth } = require('../middleware/AuthenticateSession');
 
@@ -12,7 +12,7 @@ const db = require('../models/index');
 
 const initRoutes = (app) => {
   app.use('/control', controlRouter);
-  app.use('/room', authenticateToken, isAuth, roomRouter);
+  app.use('/room', roomRouter);
   app.use('/category', categoryRouter);
   app.use('/cart', authenticateToken, isAuth, cartRouter);
   app.use('/order', authenticateToken, isAuth, orderRouter);

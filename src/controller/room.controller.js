@@ -1,53 +1,48 @@
-const { verifyToken } = require("../middleware/JWTAction");
-// const helperFn = require("../../utils/helperFn");
-const db = require("../models");
+const roomService = require("../service/roomService");
 
-const roomController = {
-  createRoom: async (req, res) => {
-    const rooms = await db.Room.findAll();
-    res.render("room", {
-      rooms,
-    });
-  },
-  bookRoom: async (req, res) => {
-    try {
-      const roomId = parseInt(req.query.roomId, 10);
-      const { id: userId } = verifyToken(req.cookies.token);
-      let cart = {};
-      const cartFetch = await db.Cart.findOne({
-        where: {
-          userId,
-          roomId,
-          onCart: 1,
-        },
-      });
-      if (cartFetch) {
-        const cartId = cartFetch.id;
-        const quantity = cartFetch.quantity + 1;
-        cart = await db.Cart.update(
-          { quantity },
-          {
-            where: {
-              id: cartId,
-            },
-          },
-        );
-      } else {
-        cart = await db.Cart.create({
-          quantity: 1,
-          userId,
-          roomId,
-          onCart: 1,
-          arrival: new Date(),
-          departure: new Date(),
-        });
-      }
-      console.log(cart);
-      return res.redirect("/cart");
-    } catch (e) {
-      console.log(e);
-      return e;
-    }
-  },
+const create = async (req, res) => {
+  try {
+    roomService.create(req, res);
+  } catch (e) {
+    console.log(e);
+  }
 };
-module.exports = roomController;
+const getAll = async (req, res) => {
+  try {
+    roomService.getAll(req, res);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const getOne = async (req, res) => {
+  try {
+    roomService.getOne(req, res);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const update = async (req, res) => {
+  try {
+    roomService.update(req, res);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const deletes = async (req, res) => {
+  try {
+    roomService.deletes(req, res);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+module.exports = {
+  create,
+  getAll,
+  getOne,
+  update,
+  deletes
+};

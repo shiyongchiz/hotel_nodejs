@@ -33,11 +33,19 @@ const checkout = catchAsync(async (req, res) => {
         });
       } else {
         // update cart
-        await sequelize.query(`UPDATE Cart SET quantity = quantity +${quantity[cartId]}, onCart = 0  WHERE id=${id}`, {
-          model: db.Cart,
-          type: sequelize.QueryTypes.INSERT,
+        // await sequelize.query(`UPDATE Cart SET quantity = quantity +${quantity[cartId]}, onCart = 0  WHERE id=${id}`, {
+        //   model: db.Cart,
+        //   type: sequelize.QueryTypes.INSERT,
+        // });
+        const fetchQuantity = await db.Cart.findOne({
+          where: { id },
         });
-
+        console.log("🚀 ~ file: cart.controller.js ~ line 43 ~ checkout ~ fetchQuantity", fetchQuantity);
+        // await db.Cart.update({
+        //   quantity: fetchQuantity.quantity + quantity[cartId]
+        // }, {
+        //   where
+        // })
         // create cart-order
         await db.CartOrder.create({
           cartId: id,
@@ -46,7 +54,7 @@ const checkout = catchAsync(async (req, res) => {
       }
     }
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 });
 const cartPage = catchAsync(async (req, res) => {
@@ -76,4 +84,4 @@ const cartPage = catchAsync(async (req, res) => {
     console.log(e);
   }
 });
-module.exports = { cartPage, checkout }
+module.exports = { cartPage, checkout };
